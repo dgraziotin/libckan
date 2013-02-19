@@ -1,16 +1,11 @@
-from libckan import request
-from libckan.model import models
-
 __author__ = 'dgraziotin'
 
-base_url = 'http://master.ckan.org'
+from libckan import request
+from libckan.model import response
+from libckan.model import package
 
-
-class Package(request.Api, models.Package):
-
-    def __init__(self):
-        super(models.Package, self).__init__()
-
+#TODO not completely satisfied with this design
+class Package(request.Api, package.Package):
     def search(self, q='*:*', fq='', rows=20, sort='score desc, name asc', start=0, qf='',
                facet=True, facet_mincount='', facet_limit='', facet_field=''):
         """
@@ -66,13 +61,13 @@ class Package(request.Api, models.Package):
         """
 
         args = self._sanitize(locals())
-        api_call = self.request(action='package_search', data=args)
+        api_call_dict = self.request(action='package_search', data=args)
+        resp = response.Response.from_dict(api_call_dict)
 
-        packages_found = []
-        for pkg in api_call['result']['results']:
-            packages_found.append(self.from_dict(pkg))
-
-        return packages_found
+        for i in range(0, len(resp.result['results'])):
+            pkg_obj = self.from_dict(resp.result['results'][i])
+            resp.result['results'][i] = pkg_obj
+        return resp
 
     def _sanitize(self, params):
         for key in params.keys():

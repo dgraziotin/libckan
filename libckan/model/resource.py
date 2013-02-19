@@ -25,10 +25,3 @@ class Resource(serializable.Serializable):
         self.position = 0
         self.resource_type = ''
 
-    @staticmethod
-    def from_dict(dict):
-        resource = Resource()
-        for key in dict.keys():
-            if resource.__dict__.has_key(key):
-                resource.__dict__[key] = dict[key]
-        return resource

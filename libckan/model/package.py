@@ -5,6 +5,8 @@ import resource
 
 
 class Package(serializable.Serializable):
+    def __init__(self):
+        self.__init__('')
 
     def __init__(self, name=''):
         #TODO check default values
@@ -53,8 +55,8 @@ class Package(serializable.Serializable):
     #    #TODO
     #    pass
 
-    @staticmethod
-    def from_dict(dict):
+    @classmethod
+    def from_dict(cls, dict):
         pkg = Package()
         for key in dict.keys():
             if pkg.__dict__.has_key(key):
