@@ -1,3 +1,9 @@
+key.py
+
+*.idea
+*.iml
+
+
 *.py[cod]
 
 # C extensions
