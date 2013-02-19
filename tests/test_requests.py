@@ -4,6 +4,7 @@ from libckan import request
 import urllib2
 import nose.tools
 
+
 def test_request_non_existing_action():
     a = request.Api()
     results = a.request(action='non_existing')
