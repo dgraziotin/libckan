@@ -1,13 +1,10 @@
 __author__ = 'dgraziotin'
 
-import serializable
 import resource
+import serializable
 
 
 class Package(serializable.Serializable):
-    def __init__(self):
-        self.__init__('')
-
     def __init__(self, name=''):
         #TODO check default values
         self.id = ''

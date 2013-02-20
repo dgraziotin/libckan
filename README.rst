@@ -13,6 +13,15 @@ It is libckan aim to reach 90%+ test coverage before pushing the source-code to 
 .. _FILESTORE API: https://ckan.readthedocs.org/en/255-update-api-docs/filestore-api.html
 .. _CKANCLIENT: https://github.com/okfn/ckanclient
 
+Documentation
+-------------
+Work in progress.
+You will use libckan like this:
+
+    import libckan.logic.action.get
+    packages = libckan.logic.action.get.package_search(q='test')
+
+
 License
 ------------
 BSD 3-Clause License (Revised). See COPYING.rst for the license.

@@ -1,7 +1,13 @@
+__author__ = 'dgraziotin'
+
+import serializable
+import exceptions
 import urlparse
 import urllib2
 import urllib
 import json
+
+
 
 #TODO this ugly thing will someday be removed
 API_KEY = ''
@@ -12,12 +18,25 @@ except ImportError:
     API_KEY = ''
 
 
-class Api(object):
+class Response(serializable.Serializable):
+    def __init__(self):
+        self.help = None
+        self.result = None
+        self.success = None
+        self.error = None
+
+
+class Client(object):
     _key = API_KEY
     _base_url = 'http://master.ckan.org'
 
-    def request(self, action, data=None, base_url=_base_url, api_key=_key):
-        '''Post a data dict to one of the actions of the CKAN action API.
+    def __init__(self, base_url=_base_url, api_key=_key):
+        self._base_url = base_url
+        self._key = key
+
+    @classmethod
+    def request(cls, action, data=None, base_url=_base_url, api_key=_key):
+        """Post a data dict to one of the actions of the CKAN action API.
 
         See the documentation of the action API, including each of the available
         actions and the data dicts they accept, here:
@@ -43,23 +62,27 @@ class Api(object):
             in the case of an unsuccessful request
         :rtype: dictionary
 
-        '''
+        """
         if data is None:
             # Even if you don't want to post any data to the CKAN API, you still
             # have to send an empty dict.
             data = {}
         path = '/api/action/{action}'.format(action=action)
         url = urlparse.urljoin(base_url, path)
-        request = urllib2.Request(url)
+        req = urllib2.Request(url)
+        resp = None
         if api_key is not None:
-            request.add_header('Authorization', api_key)
+            req.add_header('Authorization', api_key)
         try:
-            response = urllib2.urlopen(request, urllib.quote(json.dumps(data)))
+            print data
+            data = json.dumps(data)
+            resp = urllib2.urlopen(req, urllib.quote(data))
             # The CKAN API returns a dictionary (in the form of a JSON string)
             # with three keys 'success' (True or False), 'result' and 'help'.
-            d = json.loads(response.read())
-            assert d['success'] is True
-            return d
+            d = json.loads(resp.read())
+            resp = Response.from_dict(d)
+            if not resp.success:
+                raise exceptions.CKANError(resp.error)
         except urllib2.HTTPError, e:
             # For errors, the CKAN API also returns a dictionary with three
             # keys 'success', 'error' and 'help'.
@@ -69,10 +92,15 @@ class Api(object):
                 if type(d) is unicode:
                     # Sometimes CKAN returns an error as a JSON string not a dict,
                     # gloss over it here.
-                    return {'success': False, 'help': '', 'error': d}
-                assert d['success'] is False
-                return d
+                    resp = Response.from_dict({'success': False, 'help': '', 'error': d})
+                    raise exceptions.CKANError(resp.error)
+                resp = Response.from_dict(d)
+                if not resp.success:
+                    raise exceptions.CKANError(resp.error)
+                raise exceptions.CKANError(resp.error)
             except ValueError:
                 # Sometimes CKAN returns a string that is not JSON, lets gloss
                 # over it.
-                return {'success': False, 'error': error_string, 'help': ''}
+                resp = Response.from_dict({'success': False, 'error': error_string, 'help': ''})
+                raise exceptions.CKANError(resp.error)
+        return resp
