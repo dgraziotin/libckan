@@ -19,6 +19,9 @@ except ImportError:
 
 
 class Response(serializable.Serializable):
+    """
+
+    """
     def __init__(self):
         self.help = None
         self.result = None
@@ -27,8 +30,11 @@ class Response(serializable.Serializable):
 
 
 class Client(object):
-    _key = API_KEY
-    _base_url = 'http://master.ckan.org'
+    """
+    CKAN API Client. It does HTTP POST request to CKAN API.
+    """
+    _key = API_KEY                          #TODO someday this will come from a config
+    _base_url = 'http://master.ckan.org'    #TODO someday this will come from a config
 
     def __init__(self, base_url=_base_url, api_key=_key):
         self._base_url = base_url
@@ -60,7 +66,7 @@ class Client(object):
             keys 'success' (True or False), 'help' (the docstring for the action
             posted to) and 'result' in the case of a successful request or 'error'
             in the case of an unsuccessful request
-        :rtype: dictionary
+        :return: dictionary
 
         """
         if data is None:

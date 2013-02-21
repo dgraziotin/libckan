@@ -4,13 +4,13 @@ from libckan.model import package
 from libckan.model import client
 from libckan.model import exceptions
 
+
 def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score desc, name asc', start=0, qf='',
                    facet=True, facet_mincount='', facet_limit='', facet_field=''):
     """Search for packages satisfying a given search criteria.
 
     This action accepts solr search query parameters (details below), and
-    returns a dictionary of results, including dictized datasets that match
-    the search criteria, a search count and also facet information.
+    returns a list of Packages that match the search criteria
 
     **Solr Parameters:**
 
@@ -19,7 +19,8 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score 
 
     This action accepts a *subset* of solr's search query parameters:
 
-    :param client: the solr query.  Optional.  Default: `"*:*"`
+    :param client: the CKAN Client. Default: an instance of libckan.model.client.Client
+    :type client: libckan.model.client.Client
     :param q: the solr query.  Optional.  Default: `"*:*"`
     :type q: string
     :param fq: any filter queries to apply.  Note: `+site_id:{ckan_site_id}`
@@ -51,8 +52,8 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score 
         then the returned facet information is empty.
     :type facet.field: list of strings
 
-    **Results:**
-    :rtype: A dictionary with the following
+    :returns: a Python list of Package objects
+    :return: [:class:`libckan.model.package.Package`]
     """
     args = _sanitize(locals(), package.Package)
 
@@ -70,7 +71,12 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score 
 def package_list(client=client.Client()):
     """
     Return a list of the names of the site's datasets (packages).
-    :rtype: list of strings
+
+    :param client: the CKAN Client. Default: an instance of libckan.model.client.Client
+    :type client: libckan.model.client.Client
+
+    :returns: a Python list of Package objects
+    :rtype: [:class:`libckan.model.package.Package`]
     """
     resp = client.request(action='package_list')
     results = []
@@ -82,6 +88,17 @@ def package_list(client=client.Client()):
 
 
 def _sanitize(params, class_):
+    """
+    Polishes the parameters to be sent to CKAN.
+
+    :param params: A dict of parameters. Usually obtained with a call to :func:`locals`
+    :type client: dict
+    :param class_: Class that the params belong to. Not yet used.
+    :type class_: class
+
+    :returns: The sanitizied dict of parameters
+    :rtype: dict
+    """
     params_copy = params.copy()
 
     for key in params.keys():
