@@ -15,7 +15,8 @@ It is libckan aim to reach 90%+ line coverage before releasing a version to the 
 
 CKAN Api key
 -------------
-Please manually insert your CKAN Api key for master.ckan.org in the file libckan/model/client.py::
+Please manually insert your CKAN Api key for master.ckan.org in the file libckan/model/client.py
+::
     API_KEY = 'insertithere'
 
 This will obviously change in the future.
@@ -24,13 +25,13 @@ This will obviously change in the future.
 Documentation
 -------------
 Work in progress.
-Checkout the latest documentation build on `ReadTheDocs_`
+Checkout the latest documentation build on `Read The Docs`_
 You will use libckan like this:::
 
     import libckan.logic.action.get
     packages = libckan.logic.action.get.package_search(q='test')
 
-.. _ReadTheDocs: https://libckan.readthedocs.org/en/latest/
+.. _Read The Docs: https://libckan.readthedocs.org/en/latest/
 
 
 Values
