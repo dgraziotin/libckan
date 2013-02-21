@@ -16,11 +16,25 @@ It is libckan aim to reach 90%+ test coverage before pushing the source-code to 
 Documentation
 -------------
 Work in progress.
-You will use libckan like this:
+You will use libckan like this:::
 
     import libckan.logic.action.get
     packages = libckan.logic.action.get.package_search(q='test')
 
+
+Values and Strategy
+-------------------
+The following is the set of Values being followed while developing libckan.
+They are listed in preferred order and priority.
+
+1. Use `Semantic Versioning`_
+2. Adhere to CKAN API syntax and semantics as most as possible.
+3. Document the Public API and the Models
+4. No commit/merge in master unless a 90%+ test coverage is ensured for the file. Rare exceptions may exist (e.g., HTTP errors non reproducible)
+5. Adhere to `PEP8`_ before a version is released
+
+.. _Semantic Versioning: https://semver.org
+.. _PEP8: http://www.python.org/dev/peps/pep-0008
 
 License
 ------------
