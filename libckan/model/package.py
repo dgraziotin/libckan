@@ -1,8 +1,8 @@
 __author__ = 'dgraziotin'
 
-import resource
 import serializable
-
+import resource
+import trackingsummary
 
 class Package(serializable.Serializable):
     def __init__(self, name=''):
@@ -19,11 +19,7 @@ class Package(serializable.Serializable):
         self.download_url = ''
         self.notes_rendered = ''
         self.notes = ''
-        #todo convert to object
-        self.tracking_summary = {
-            'total' : 0,
-            'recent' : 0
-        }
+        self.tracking_summary = trackingsummary.TrackingSummary()
 
         self.license_id = 'notspecified'
         self.license = ''
@@ -69,6 +65,8 @@ class Package(serializable.Serializable):
                 if key == 'resources':
                     for resource_dict in dict[key]:
                         pkg.add_resource(resource.Resource.from_dict(resource_dict))
+                elif key == 'tracking_summary':
+                    pkg.tracking_summary = trackingsummary.TrackingSummary.from_dict(dict[key])
                 else:
                     pkg.__dict__[key] = dict[key]
         return pkg

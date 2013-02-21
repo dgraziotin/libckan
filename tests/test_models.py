@@ -7,6 +7,7 @@ from libckan.model import serializable
 from libckan.model import resource
 from libckan.model import client
 from libckan.model import exceptions
+from libckan.model import trackingsummary
 
 
 @nose.tools.raises(NotImplementedError)
@@ -28,7 +29,9 @@ def test_package_init():
     p = package.Package()
     assert p.name == ''
     assert p.type is None
-    assert p.extras is None
+    assert p.extras == []
+    assert isinstance(p.tracking_summary, trackingsummary.TrackingSummary)
+    assert p.tracking_summary.recent == 0 and p.tracking_summary.total == 0
 
 
 def test_resource():
@@ -49,4 +52,5 @@ def test_ckanerror():
         raise exceptions.CKANError({'message':'this is a test', '__type':'A custom type'})
     except exceptions.CKANError as e:
         print e
+        print e.__repr__
     raise exceptions.CKANError({'message':'this is a test', '__type':'A custom type'})
