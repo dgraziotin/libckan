@@ -9,6 +9,7 @@ from libckan.model import client
 from libckan.model import exceptions
 from libckan.model import trackingsummary
 from libckan.model import tag
+from libckan.model import extra
 
 
 @nose.tools.raises(NotImplementedError)
@@ -48,11 +49,41 @@ def test_tags():
     assert p.tags[0] == tag_obj
 
 
+def test_extras():
+    p = package.Package()
+    extra_obj = extra.Extra()
+    assert extra_obj.id == '' and extra_obj.revision_timestamp == ''
+    extra_obj.id = 'fakeid123'
+    extra_obj.key = 'fakekey'
+    extra_obj.value = 'fakevalue'
+    p.add_extra(extra_obj)
+    assert len(p.extras) == 1
+    assert p.extras[0] == extra_obj
+
+
 
 def test_resource():
     r = resource.Resource()
     assert r.created is None
     assert r.id == ''
+
+
+@nose.tools.raises(ValueError)
+def test_add_wrong_resource():
+    p = package.Package()
+    p.add_resource(tag.Tag())
+
+
+@nose.tools.raises(ValueError)
+def test_add_wrong_tag():
+    p = package.Package()
+    p.add_tag(resource.Resource())
+
+
+@nose.tools.raises(ValueError)
+def test_add_wrong_extra():
+    p = package.Package()
+    p.add_extra('haaaai')
 
 
 def test_response_init():

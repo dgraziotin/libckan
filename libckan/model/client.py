@@ -32,7 +32,7 @@ class Client(object):
 
     def __init__(self, base_url=_base_url, api_key=_key):
         self._base_url = base_url
-        self._key = key
+        self._key = api_key
 
     @classmethod
     def request(cls, action, data=None, base_url=_base_url, api_key=_key):

@@ -4,6 +4,7 @@ import serializable
 import resource
 import trackingsummary
 import tag
+import extra
 
 class Package(serializable.Serializable):
     def __init__(self, name=''):
@@ -34,7 +35,7 @@ class Package(serializable.Serializable):
         self.owner_org = None
         self.organization = None
 
-        self.tags = [] #TODO convert to objects
+        self.tags = []
         self.num_tags = 0
         self.groups = [] #TODO convert to objects
         self.isopen = True
@@ -51,12 +52,21 @@ class Package(serializable.Serializable):
 
         self.extras = [] #TODO convert to objects
 
-    def add_resource(self, resource):
-        self.resources.append(resource)
+    def add_resource(self, resource_obj):
+        if not isinstance(resource_obj, resource.Resource):
+            raise ValueError('Please add only libckan.model.reource.Resource to a Package.')
+        self.resources.append(resource_obj)
 
-    def add_tag(self, tag):
-        self.tags.append(tag)
+    def add_tag(self, tag_obj):
+        if not isinstance(tag_obj, tag.Tag):
+            raise ValueError('Please add only libckan.model.tag.Tag to a Package.')
+        self.tags.append(tag_obj)
         self.num_tags = len(self.tags)
+
+    def add_extra(self, extra_obj):
+        if not isinstance(extra_obj, extra.Extra):
+            raise ValueError('Please add only libckan.model.extra.Extra to a Package.')
+        self.extras.append(extra_obj)
 
     #def add_relationship(self, package):
     #    #TODO
@@ -75,6 +85,9 @@ class Package(serializable.Serializable):
                 elif key == 'tags':
                     for tag_dict in dict[key]:
                         pkg.add_tag(tag.Tag.from_dict(tag_dict))
+                elif key == 'extras':
+                    for extra_dict in dict[key]:
+                        pkg.add_tag(extra.Extra.from_dict(extra_dict))
                 else:
                     pkg.__dict__[key] = dict[key]
         return pkg
