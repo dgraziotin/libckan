@@ -22,6 +22,10 @@ Please manually insert your CKAN Api key for master.ckan.org in the file libckan
 This will obviously change in the future.
 
 
+Tests
+-----
+libckan uses nosetests. Run then in the root of the project.
+
 Documentation
 -------------
 Work in progress.
@@ -30,6 +34,9 @@ You will use libckan like this:::
 
     import libckan.logic.action.get
     packages = libckan.logic.action.get.package_search(q='test')
+
+Checkout the tests folder to learn something more.
+Otherwise, please look at the source for the moment.
 
 .. _Read The Docs: https://libckan.readthedocs.org/en/latest/
 
