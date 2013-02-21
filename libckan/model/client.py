@@ -1,3 +1,7 @@
+"""
+Lowest communication layer of libckan. This package contains a wrapper for urllib2 requests that communicates
+with CKAN Api. It also contains a Response class to represent CKAN responses.
+"""
 __author__ = 'dgraziotin'
 
 import serializable
@@ -15,12 +19,14 @@ try:
     import key
     API_KEY = key.key
 except ImportError:
-    API_KEY = ''
+    pass
 
 
 class Response(serializable.Serializable):
     """
-
+    CKAN Action API returns Response objects (in form of JSON). We encapsulate it in a Python object for
+    consistency. The library actually never returns Response objects.
+    It is employed internally
     """
     def __init__(self):
         self.help = None
@@ -45,28 +51,26 @@ class Client(object):
         """Post a data dict to one of the actions of the CKAN action API.
 
         See the documentation of the action API, including each of the available
-        actions and the data dicts they accept, here:
-        http://docs.ckan.org/en/ckan-1.8/apiv3.html
+        actions and the data dicts they accept, here:  https://ckan.readthedocs.org/en/255-update-api-docs/api.html
+
+        :param action: the action to post to, e.g. "package_create"
+        :type action: str
+
+        :param data: the data to post (optional, default: {})
+        :type data: dict
 
         :param base_url: the base URL of the CKAN instance to post to,
             e.g. "http://datahub.io/"
-        :type base_url: string
-
-        :param action: the action to post to, e.g. "package_create"
-        :type action: string
-
-        :param data: the data to post (optional, default: {})
-        :type data: dictionary
+        :type base_url: str
 
         :param api_key: the CKAN API key to put in the 'Authorization' header of
             the HTTP request (optional, default: None)
-        :type api_key: string
+        :type api_key: str
 
-        :returns: the dictionary returned by the CKAN API, a dictionary with three
-            keys 'success' (True or False), 'help' (the docstring for the action
-            posted to) and 'result' in the case of a successful request or 'error'
-            in the case of an unsuccessful request
-        :return: dictionary
+        :returns: the dictionary returned by the CKAN API encapsulated in a Response object.
+        :return: :class:`libckan.model.client.Response`
+
+        Raises: :class:`libckan.model.exceptions.CKANError`: An error occurred accessing CKAN API
 
         """
         if data is None:

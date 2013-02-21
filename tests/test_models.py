@@ -86,6 +86,16 @@ def test_add_wrong_extra():
     p.add_extra('haaaai')
 
 
+@nose.tools.raises(ValueError)
+def test_from_dict_wrong_data():
+    serializable.Serializable.from_dict('hellooo')
+
+
+@nose.tools.raises(ValueError)
+def test_package_from_dict_wrong_data():
+    p = package.Package.from_dict(123)
+
+
 def test_response_init():
     r = client.Response()
     assert r.help == None

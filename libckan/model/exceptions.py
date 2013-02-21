@@ -1,7 +1,13 @@
+"""
+libckan custom exceptions are defined in this module.
+"""
 __author__ = 'dgraziotin'
 
 
 class CKANError(Exception):
+    """
+    General CKAN API error. It encapsulates the error part of a CKAN Response.
+    """
     def __init__(self, response_error):
         try:
             message = response_error['message']

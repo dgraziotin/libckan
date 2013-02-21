@@ -3,6 +3,9 @@ __author__ = 'dgraziotin'
 import serializable
 
 class Resource(serializable.Serializable):
+    """
+    Python CKAN Resource representation
+    """
     def __init__(self):
         self.resource_group_id = ''
         self.cache_last_updated = None
