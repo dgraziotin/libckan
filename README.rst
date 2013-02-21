@@ -30,6 +30,7 @@ Documentation
 -------------
 Work in progress.
 Checkout the latest documentation build on `Read The Docs`_
+
 You will use libckan like this:::
 
     import libckan.logic.action.get
@@ -38,7 +39,7 @@ You will use libckan like this:::
 Checkout the tests folder to learn something more.
 Otherwise, please look at the source for the moment.
 
-.. _Read The Docs: https://libckan.readthedocs.org/en/latest/
+.. _Read The Docs: https://libckan.readthedocs.org/en/latest/index.html
 
 
 Values
