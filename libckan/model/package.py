@@ -6,44 +6,53 @@ import serializable
 
 class Package(serializable.Serializable):
     def __init__(self, name=''):
-        #TODO check default values
         self.id = ''
         self.name = name
         self.title = ''
         self.type = None
-        self.version = ''
+        self.version = None
         self.state = ''
         self.revision_id = ''
-        self.url = ''
+        self.revision_timestamp = ''
+        self.url = None
         self.ckan_url = ''
         self.download_url = ''
         self.notes_rendered = ''
         self.notes = ''
-        self.tracking_summary = None
+        #todo convert to object
+        self.tracking_summary = {
+            'total' : 0,
+            'recent' : 0
+        }
 
-        self.license_id = ''
+        self.license_id = 'notspecified'
         self.license = ''
-        self.license_title = ''
+        self.license_title = 'License Not Specified'
         self.licese_url = ''
 
         self.author = ''
         self.author_email = ''
         self.maintainer = ''
         self.maintainer_email = ''
+        self.owner_org = None
+        self.organization = None
 
-        self.tags = []
-        self.groups = []
+        self.tags = [] #TODO convert to objects
+        self.num_tags = 0
+        self.groups = [] #TODO convert to objects
         self.isopen = True
+        self.private = False
         self.metadata_created = ''
         self.metadata_modified = ''
-        self.relationships = []
+        self.relationships = [] #TODO convert to objects
 
         self.resources = []
+        self.num_resources = 0
 
         self.ratings_count = 0
         self.rating_average = 0.0
 
-        self.extras = None
+        self.extras = [] #TODO convert to objects
 
     def add_resource(self, resource):
         self.resources.append(resource)
