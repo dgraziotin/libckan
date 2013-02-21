@@ -3,6 +3,7 @@ __author__ = 'dgraziotin'
 import serializable
 import resource
 import trackingsummary
+import tag
 
 class Package(serializable.Serializable):
     def __init__(self, name=''):
@@ -53,6 +54,10 @@ class Package(serializable.Serializable):
     def add_resource(self, resource):
         self.resources.append(resource)
 
+    def add_tag(self, tag):
+        self.tags.append(tag)
+        self.num_tags = len(self.tags)
+
     #def add_relationship(self, package):
     #    #TODO
     #    pass
@@ -67,6 +72,9 @@ class Package(serializable.Serializable):
                         pkg.add_resource(resource.Resource.from_dict(resource_dict))
                 elif key == 'tracking_summary':
                     pkg.tracking_summary = trackingsummary.TrackingSummary.from_dict(dict[key])
+                elif key == 'tags':
+                    for tag_dict in dict[key]:
+                        pkg.add_tag(tag.Tag.from_dict(tag_dict))
                 else:
                     pkg.__dict__[key] = dict[key]
         return pkg
