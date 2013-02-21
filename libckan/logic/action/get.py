@@ -5,8 +5,10 @@ from libckan.model import client
 from libckan.model import exceptions
 
 
-def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score desc, name asc', start=0, qf='',
-                   facet=True, facet_mincount='', facet_limit='', facet_field=''):
+def package_search(client=client.Client(), q='*:*', fq='', rows=20,
+                   sort='score desc, name asc', start=0, qf='',
+                   facet=True, facet_mincount='', facet_limit='',
+                   facet_field=''):
     """Search for packages satisfying a given search criteria.
 
     This action accepts solr search query parameters (details below), and
@@ -19,7 +21,8 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score 
 
     This action accepts a *subset* of solr's search query parameters:
 
-    :param client: the CKAN Client. Default: an instance of libckan.model.client.Client
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
     :type client: libckan.model.client.Client
     :param q: the solr query.  Optional.  Default: `"*:*"`
     :type q: string
@@ -37,7 +40,7 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20, sort='score 
     :type start: int
     :param qf: the dismax query fields to search within, including boosts.  See
         the `Solr Dismax Documentation
-        <http://wiki.apache.org/solr/DisMaxQParserPlugin#qf_.28Query_Fields.29>`_
+        <http://wiki.apache.org/solr/DisMaxQParserPlugin>`_
         for further details.
     :type qf: string
     :param facet: whether to enable faceted results.  Default: "true".
@@ -72,7 +75,8 @@ def package_list(client=client.Client()):
     """
     Return a list of the names of the site's datasets (packages).
 
-    :param client: the CKAN Client. Default: an instance of libckan.model.client.Client
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
     :type client: libckan.model.client.Client
 
     :returns: a Python list of Package objects
@@ -91,7 +95,8 @@ def _sanitize(params, class_):
     """
     Polishes the parameters to be sent to CKAN.
 
-    :param params: A dict of parameters. Usually obtained with a call to :func:`locals`
+    :param params: A dict of parameters. Usually obtained with a call
+    to :func:`locals`
     :type client: dict
     :param class_: Class that the params belong to. Not yet used.
     :type class_: class
@@ -102,7 +107,7 @@ def _sanitize(params, class_):
     params_copy = params.copy()
 
     for key in params.keys():
-        if not params[key] or key == 'self' or key == 'cls' or key == 'client' or key == 'args':
+        if not params[key] or key in ["self", "cls", "client", "args"]:
             del params_copy[key]
 
     for key in params.keys():

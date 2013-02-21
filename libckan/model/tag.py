@@ -13,4 +13,3 @@ class Tag(serializable.Serializable):
         self.revision_timestamp = ''
         self.state = ''
         self.id = ''
-

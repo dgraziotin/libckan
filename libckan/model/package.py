@@ -9,10 +9,12 @@ import trackingsummary
 import tag
 import extra
 
+
 class Package(serializable.Serializable):
     """
     A CKAN Package of Open Data.
     """
+
     def __init__(self, name=''):
         self.id = ''
         self.name = name
@@ -43,12 +45,12 @@ class Package(serializable.Serializable):
 
         self.tags = []
         self.num_tags = 0
-        self.groups = [] #TODO convert to objects
+        self.groups = []  # TODO convert to objects
         self.isopen = True
         self.private = False
         self.metadata_created = ''
         self.metadata_modified = ''
-        self.relationships = [] #TODO convert to objects
+        self.relationships = []  # TODO convert to objects
 
         self.resources = []
         self.num_resources = 0
@@ -68,7 +70,8 @@ class Package(serializable.Serializable):
         :raises: ValueError if resource_obj is not a Resource
         """
         if not isinstance(resource_obj, resource.Resource):
-            raise ValueError('Please add only libckan.model.reource.Resource to a Package.')
+            raise ValueError(
+                'Please add only libckan.model.reource.Resource to a Package.')
         self.resources.append(resource_obj)
 
     def add_tag(self, tag_obj):
@@ -81,7 +84,8 @@ class Package(serializable.Serializable):
         :raises: ValueError if tag_obj is not a Tag
         """
         if not isinstance(tag_obj, tag.Tag):
-            raise ValueError('Please add only libckan.model.tag.Tag to a Package.')
+            raise ValueError(
+                'Please add only libckan.model.tag.Tag to a Package.')
         self.tags.append(tag_obj)
         self.num_tags = len(self.tags)
 
@@ -95,15 +99,18 @@ class Package(serializable.Serializable):
         :raises: ValueError if extra_obj is not an Extra
         """
         if not isinstance(extra_obj, extra.Extra):
-            raise ValueError('Please add only libckan.model.extra.Extra to a Package.')
+            raise ValueError(
+                'Please add only libckan.model.extra.Extra to a Package.')
         self.extras.append(extra_obj)
 
     @classmethod
     def from_dict(cls, package_dict):
         """
-        Convert a CKAN JSON Package, already converted to a PYthon dict, to a CKAN Python Package.
+        Convert a CKAN JSON Package, already converted to a PYthon dict,
+        to a CKAN Python Package.
 
-        :param package_dict: The CKAN Package already converted to a Python dict.
+        :param package_dict: The CKAN Package already converted
+            to a Python dict.
         :type name: dict
         :returns: The resulting CKAN Python Package.
         :rtype: :class:`libckan.models.package.Package`
@@ -111,16 +118,19 @@ class Package(serializable.Serializable):
         :raises: ValueError if package_dict is not a dict
         """
         if not isinstance(package_dict, dict):
-            raise ValueError('Please add only libckan.model.extra.Extra to a Package.')
+            raise ValueError(
+                'Please add only libckan.model.extra.Extra to a Package.')
 
         pkg = Package()
         for key in package_dict.keys():
-            if pkg.__dict__.has_key(key):
+            if key in pkg.__dict__:
                 if key == 'resources':
                     for resource_dict in package_dict[key]:
-                        pkg.add_resource(resource.Resource.from_dict(resource_dict))
+                        pkg.add_resource(
+                            resource.Resource.from_dict(resource_dict))
                 elif key == 'tracking_summary':
-                    pkg.tracking_summary = trackingsummary.TrackingSummary.from_dict(package_dict[key])
+                    pkg.tracking_summary = trackingsummary\
+                        .TrackingSummary.from_dict(package_dict[key])
                 elif key == 'tags':
                     for tag_dict in package_dict[key]:
                         pkg.add_tag(tag.Tag.from_dict(tag_dict))

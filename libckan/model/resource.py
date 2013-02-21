@@ -2,6 +2,7 @@ __author__ = 'dgraziotin'
 
 import serializable
 
+
 class Resource(serializable.Serializable):
     """
     Python CKAN Resource representation
@@ -27,4 +28,3 @@ class Resource(serializable.Serializable):
         self.webstore_url = ''
         self.position = 0
         self.resource_type = ''
-
