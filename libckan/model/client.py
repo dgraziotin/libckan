@@ -74,7 +74,6 @@ class Client(object):
         if api_key is not None:
             req.add_header('Authorization', api_key)
         try:
-            print data
             data = json.dumps(data)
             resp = urllib2.urlopen(req, urllib.quote(data))
             # The CKAN API returns a dictionary (in the form of a JSON string)
