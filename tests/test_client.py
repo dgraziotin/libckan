@@ -1,9 +1,7 @@
-__author__ = 'dgraziotin'
-
-from libckan.model import client
-from libckan.model import exceptions
 import urllib2
 import nose.tools
+import libckan.model.client as client
+import libckan.model.exceptions as exceptions
 
 
 @nose.tools.raises(exceptions.CKANError)

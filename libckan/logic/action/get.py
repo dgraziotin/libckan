@@ -1,5 +1,5 @@
-from libckan.model import client
-from libckan.model import exceptions
+import libckan.model.client as client
+import libckan.model.exceptions as exceptions
 
 
 def package_search(client=client.Client(), q='*:*', fq='', rows=20,
