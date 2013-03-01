@@ -1,6 +1,3 @@
-__author__ = 'dgraziotin'
-
-from libckan.model import package
 from libckan.model import client
 from libckan.model import exceptions
 
@@ -58,17 +55,12 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20,
     :returns: a Python list of Package objects
     :return: [:class:`libckan.model.package.Package`]
     """
-    args = _sanitize(locals(), package.Package)
+    args = _sanitize(locals())
 
     resp = client.request(action='package_search', data=args)
-    if not resp.success:
+    if not resp['success']:
         raise exceptions.CKANError(resp.error)
-
-    results = []
-    for i in range(0, resp.result['count']):
-        pkg_obj = package.Package.from_dict(resp.result['results'][i])
-        results.append(pkg_obj)
-    return results
+    return resp
 
 
 def package_list(client=client.Client()):
@@ -83,23 +75,18 @@ def package_list(client=client.Client()):
     :rtype: [:class:`libckan.model.package.Package`]
     """
     resp = client.request(action='package_list')
-    results = []
-    for i in range(0, len(resp.result)):
-        pkg_obj = package.Package()
-        pkg_obj.name = resp.result[i]
-        results.append(pkg_obj)
-    return results
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
 
 
-def _sanitize(params, class_):
+def _sanitize(params):
     """
     Polishes the parameters to be sent to CKAN.
 
     :param params: A dict of parameters. Usually obtained with a call
     to :func:`locals`
     :type client: dict
-    :param class_: Class that the params belong to. Not yet used.
-    :type class_: class
 
     :returns: The sanitizied dict of parameters
     :rtype: dict

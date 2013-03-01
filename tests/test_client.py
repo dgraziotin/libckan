@@ -10,41 +10,41 @@ import nose.tools
 def test_request_non_existing_action():
     a = client.Client()
     results = a.request(action='non_existing')
-    assert results.success is False
+    assert results['success'] is False
 
 
 def test_request_existing_action():
     a = client.Client()
     results = a.request(action='package_search')
-    assert results.success is True
+    assert results['success'] is True
 
 
 @nose.tools.raises(exceptions.CKANError)
 def test_request_wrong_data():
     a = client.Client()
     results = a.request(action='package_search', data=123)
-    assert results.success is False
+    assert results['success'] is False
 
 
 def test_request_ok_data():
     a = client.Client()
     results = a.request(action='package_search',data={'q':'test'})
-    assert results.success is True
+    assert results['success'] is True
 
 
 @nose.tools.raises(exceptions.CKANError)
 def test_request_valid_client_key():
     a = client.Client()
     results = a.request(action='am_following_user',data={'id':'idonotexisthopefully123'})
-    assert results.success is False
+    print results
+    assert results['success'] is True
 
 
 @nose.tools.raises(exceptions.CKANError)
 def test_request_nonvalid_client_key():
     a = client.Client(api_key='ravioli ravioli give me the formuoli')
     results = a.request(action='am_following_user',data={'id':'dgraziotin'})
-    assert results.success is False
-    assert results.error['message'] is not None
+    assert results['success'] is False
 
 
 @nose.tools.raises(ValueError)

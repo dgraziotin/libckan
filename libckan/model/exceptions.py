@@ -1,7 +1,6 @@
 """
 libckan custom exceptions are defined in this module.
 """
-__author__ = 'dgraziotin'
 
 
 class CKANError(Exception):
@@ -23,3 +22,21 @@ class CKANError(Exception):
 
     def __str__(self):
         return str(self.type) + ": " + str(self.message)
+
+
+class CKANAccessError(CKANError):
+    """
+    Errors related to authentication (i.e., access denied)
+    """
+    pass
+
+
+class CKANValidationError(CKANError):
+    """
+    Errors related to Validation issues.
+    """
+    pass
+
+
+
+
