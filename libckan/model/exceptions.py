@@ -36,7 +36,3 @@ class CKANValidationError(CKANError):
     Errors related to Validation issues.
     """
     pass
-
-
-
-

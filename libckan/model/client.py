@@ -64,8 +64,8 @@ class Client(object):
             An error occurred accessing CKAN API
         """
         if data is None:
-            # Even if you don't want to post any data to the CKAN API, you still
-            # have to send an empty dict.
+            # Even if you don't want to post any data to the CKAN API, you
+            # still have to send an empty dict.
             data = {}
         path = '/api/action/{action}'.format(action=action)
         url = urlparse.urljoin(base_url, path)
@@ -87,8 +87,8 @@ class Client(object):
             try:
                 results_dict = json.loads(error_string)
                 if type(results_dict) is unicode:
-                    # Sometimes CKAN returns an error as a JSON string not a dict,
-                    # gloss over it here.
+                    # Sometimes CKAN returns an error as a JSON string
+                    # not a dict, gloss over it here.
                     raise exceptions.CKANError(results_dict)
                 if results_dict['success'] is False:
                     raise exceptions.CKANError(results_dict['error'])
