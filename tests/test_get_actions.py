@@ -1,6 +1,12 @@
 import libckan.logic.action.get
 
 
+def test_site_read():
+    results = libckan.logic.action.get.site_read()
+    assert results['success'] is True
+    assert results['result'] is True
+
+
 def test_package_search_non_existing():
     results = libckan.logic.action.get.package_search(
         q='idonotexisth0pefllt123')

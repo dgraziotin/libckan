@@ -2,6 +2,29 @@ import libckan.model.client as client
 import libckan.model.exceptions as exceptions
 
 
+def site_read(client=client.Client()):
+    """
+    This method always returns True.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is always True (bool)
+    :return: dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`: An error occurred
+        accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='site_read', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
 def package_search(client=client.Client(), q='*:*', fq='', rows=20,
                    sort='score desc, name asc', start=0, qf='',
                    facet=True, facet_mincount='', facet_limit='',
@@ -52,8 +75,12 @@ def package_search(client=client.Client(), q='*:*', fq='', rows=20,
         then the returned facet information is empty.
     :type facet.field: list of strings
 
-    :returns: a Python list of Package objects
-    :return: [:class:`libckan.model.package.Package`]
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of datasets (dict).
+    :return: dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
     """
     args = _sanitize(locals())
 
@@ -71,8 +98,12 @@ def package_list(client=client.Client()):
         libckan.model.client.Client
     :type client: libckan.model.client.Client
 
-    :returns: a Python list of Package objects
-    :rtype: [:class:`libckan.model.package.Package`]
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list package names (str).
+    :return: dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
     """
     resp = client.request(action='package_list')
     if not resp['success']:

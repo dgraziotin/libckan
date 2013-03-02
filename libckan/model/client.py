@@ -36,11 +36,7 @@ class Client(object):
     def request(cls, action, data=None, base_url=_base_url, api_key=_key):
         """Post a data dict to one of the actions of the CKAN action API.
 
-        Code taken from https://gist.github.com/seanh/4130567
-
-        See the documentation of the action API, including each of
-        the available actions and the data dicts they accept, here:
-        https://ckan.readthedocs.org/en/255-update-api-docs/api.html
+        Code adapted from https://gist.github.com/seanh/4130567
 
         :param action: the action to post to, e.g. "package_create"
         :type action: str
@@ -53,12 +49,11 @@ class Client(object):
         :type base_url: str
 
         :param api_key: the CKAN API key to put in the 'Authorization'
-            header of the HTTP request (optional, default: None)
+            header of the HTTP request (optional, default: '')
         :type api_key: str
 
-        :returns: the dictionary returned by the CKAN API encapsulated in
-            a Response object.
-        :return: :class:`libckan.model.client.Response`
+        :returns: the dictionary returned by the CKAN API
+        :return: dict
 
         Raises: :class:`libckan.model.exceptions.CKANError`:
             An error occurred accessing CKAN API
