@@ -99,13 +99,42 @@ def package_list(client=client.Client()):
     :type client: libckan.model.client.Client
 
     :returns: the dictionary returned by the CKAN API, with the keys "help",
-        "result", and "success". "results" is a list package names (str).
+        "result", and "success". "results" is a list of package names (str).
     :return: dict
 
     Raises: :class:`libckan.model.exceptions.CKANError`:
         An error occurred accessing CKAN API
     """
     resp = client.request(action='package_list')
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+def current_package_list_with_resources(client=client.Client(), limit=None,
+                                        page=None):
+    """Return a list of the site's datasets (packages) and their resources.
+
+    The list is sorted most-recently-modified first.
+
+    :param limit: if given, the list of datasets will be broken into pages of
+        at most ``limit`` datasets per page and only one page will be returned
+        at a time (optional)
+    :type limit: int
+    :param page: when ``limit`` is given, which page to return
+    :type page: int
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of packages (dict).
+    :return: dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='current_package_list_with_resources',
+                          data=args)
     if not resp['success']:
         raise exceptions.CKANError(resp.error)
     return resp
@@ -122,6 +151,10 @@ def _sanitize(params):
     :returns: The sanitizied dict of parameters
     :rtype: dict
     """
+
+    if not isinstance(params, dict):
+        raise TypeError('_sanitize(params) needs a dict as parameter')
+
     params_copy = params.copy()
 
     for key in params.keys():

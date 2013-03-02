@@ -26,3 +26,22 @@ def test_package_list():
     results = libckan.logic.action.get.package_list()
     assert results['success'] is True
     assert len(results['result']) > 0
+
+
+def test_current_package_list_with_resources():
+    results = libckan.logic.action.get.current_package_list_with_resources()
+    assert results['success'] is True
+    assert len(results['result']) > 0
+
+
+def test_current_package_list_with_five_resources():
+    results = libckan.logic.action.get.current_package_list_with_resources(
+        limit=5)
+    assert results['success'] is True
+    assert len(results['result']) == 5
+
+
+
+
+
+
