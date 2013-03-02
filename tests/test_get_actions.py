@@ -26,6 +26,7 @@ def test_package_list():
     results = libckan.logic.action.get.package_list()
     assert results['success'] is True
     assert len(results['result']) > 0
+    assert isinstance(results['result'][0], unicode)
 
 
 def test_current_package_list_with_resources():
@@ -41,6 +42,20 @@ def test_current_package_list_with_five_resources():
     assert len(results['result']) == 5
 
 
+def test_current_package_list_with_five_resources():
+    results = libckan.logic.action.get.current_package_list_with_resources(
+        limit=5)
+    assert results['success'] is True
+    assert len(results['result']) == 5
+    assert results['result'][0]['name'] is not None
+    assert isinstance(results['result'][0]['name'], unicode)
+
+
+def test_revision_list():
+    results = libckan.logic.action.get.revision_list()
+    assert results['success'] is True
+    assert len(results['result']) > 0
+    assert isinstance(results['result'][0], unicode)
 
 
 

@@ -99,7 +99,8 @@ def package_list(client=client.Client()):
     :type client: libckan.model.client.Client
 
     :returns: the dictionary returned by the CKAN API, with the keys "help",
-        "result", and "success". "results" is a list of package names (str).
+        "result", and "success".
+        "results" is a list of package names (unicode str).
     :return: dict
 
     Raises: :class:`libckan.model.exceptions.CKANError`:
@@ -117,6 +118,9 @@ def current_package_list_with_resources(client=client.Client(), limit=None,
 
     The list is sorted most-recently-modified first.
 
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
     :param limit: if given, the list of datasets will be broken into pages of
         at most ``limit`` datasets per page and only one page will be returned
         at a time (optional)
@@ -135,6 +139,28 @@ def current_package_list_with_resources(client=client.Client(), limit=None,
 
     resp = client.request(action='current_package_list_with_resources',
                           data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+def revision_list(client=client.Client()):
+    """Return a list of the IDs of the site's revisions.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of IDs ([unicode str]).
+    :return: list of unicode str
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='revision_list', data=args)
     if not resp['success']:
         raise exceptions.CKANError(resp.error)
     return resp
