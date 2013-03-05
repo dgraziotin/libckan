@@ -1,4 +1,6 @@
+import nose.tools
 import libckan.logic.action.get
+import libckan.model.exceptions
 
 
 def test_site_read():
@@ -56,6 +58,18 @@ def test_revision_list():
     assert results['success'] is True
     assert len(results['result']) > 0
     assert isinstance(results['result'][0], unicode)
+
+
+def test_package_revision_list():
+    package = libckan.logic.action.get.package_search(q='test-bus-stops')
+    if package['result']['count'] == 0:
+        package = libckan.logic.action.get.package_search(q='test')
+    package = package['result']['results'][0]
+    results = libckan.logic.action.get.package_revision_list(id=package['id'])
+    assert results['success'] is True
+    print results
+    assert len(results['result']) >= 0
+    assert results['result'][0]['timestamp'] is not None
 
 
 

@@ -166,6 +166,53 @@ def revision_list(client=client.Client()):
     return resp
 
 
+def package_revision_list(client=client.Client(), id=''):
+    """Return a dataset (package)'s revisions as a list of dictionaries.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param id: the id or name of the dataset
+    :type id: string
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of Package revisions
+            ([dict]) each one containing the elements "timestamp", "messsage",
+            "approved_timestamp", "id", and "author"
+    :return: list of dicts
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='package_revision_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+#def related_show(client=client.Client(), id=''):
+#    '''Return an item related to the provided one.
+#
+#    :param id: the id of the related item to show
+#    :type id: str
+#
+#    :returns: the dictionary returned by the CKAN API, with the keys "help",
+#        "result", and "success". "results" is a list of IDs ([unicode str]).
+#    :return: list of unicode str
+#
+#    Raises: :class:`libckan.model.exceptions.CKANError`:
+#        An error occurred accessing CKAN API
+#    '''
+#    args = _sanitize(locals())
+#
+#    resp = client.request(action='related_show', data=args)
+#    if not resp['success']:
+#        raise exceptions.CKANError(resp.error)
+#    return resp
+
+
 def _sanitize(params):
     """
     Polishes the parameters to be sent to CKAN.
