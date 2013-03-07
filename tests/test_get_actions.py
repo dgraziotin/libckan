@@ -72,5 +72,36 @@ def test_package_revision_list():
     assert results['result'][0]['timestamp'] is not None
 
 
+def test_related_list():
+    package = libckan.logic.action.get.package_search(q='test-bus-stops')
+    if package['result']['count'] == 0:
+        package = libckan.logic.action.get.package_search(q='test')
+    package = package['result']['results'][0]
+    related = libckan.logic.action.get.related_list(id=package['id'])
+    assert related['success'] is True
+    if len(related['result']) > 0:
+        assert related['result'][0]['view_count'] >= 0
+        assert related['result'][0]['created'] != ''
+
+
+def test_related_show():
+    package_result = libckan.logic.action.get.package_search(q='test-bus-stops')
+    if package_result['result']['count'] == 0:
+        return
+
+    package = package_result['result']['results'][0]
+    related_to_package = libckan.logic.action.get.related_list(id=package['id'])
+
+    assert related_to_package['success'] is True
+    if len(related_to_package['result']) == 0:
+        return
+
+    related = related_to_package['result'][0]
+    related_reget = libckan.logic.action.get.related_show(id=related['id'])
+    related_reget = related_reget['result']
+    # TODO see if there is a continuation to
+    # http://lists.okfn.org/pipermail/ckan-dev/2013-March/004167.html
+    assert related['id'] == related_reget['id']
+    assert related['title'] == related_reget['title']
 
 

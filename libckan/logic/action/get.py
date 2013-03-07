@@ -192,25 +192,60 @@ def package_revision_list(client=client.Client(), id=''):
     return resp
 
 
-#def related_show(client=client.Client(), id=''):
-#    '''Return an item related to the provided one.
-#
-#    :param id: the id of the related item to show
-#    :type id: str
-#
-#    :returns: the dictionary returned by the CKAN API, with the keys "help",
-#        "result", and "success". "results" is a list of IDs ([unicode str]).
-#    :return: list of unicode str
-#
-#    Raises: :class:`libckan.model.exceptions.CKANError`:
-#        An error occurred accessing CKAN API
-#    '''
-#    args = _sanitize(locals())
-#
-#    resp = client.request(action='related_show', data=args)
-#    if not resp['success']:
-#        raise exceptions.CKANError(resp.error)
-#    return resp
+def related_show(client=client.Client(), id=''):
+    """Return an item related to the provided one.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param id: the id of the related item to show
+    :type id: str
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a related items
+    :return: list of dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='related_show', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+def related_list(client=client.Client(), id='', type_filter=None,
+                 sort=None, featured=False):
+    """Return a dataset's related items.
+
+    :param id: id or name of the dataset
+    :type id: string
+    :param type_filter: the type of related item to show (optional,
+      default: None, show all items)
+    :type type_filter: str
+    :param sort: the order to sort the related items in, possible values are
+      'view_count_asc', 'view_count_desc', 'created_asc' or 'created_desc'
+      (optional)
+    :type sort: str
+    :param featured: whether or not to restrict the results to only featured
+      related items (optional, default: False)
+    :type featured: bool
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list dicts.
+    :return: list of dict
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='related_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
 
 
 def _sanitize(params):
@@ -231,7 +266,8 @@ def _sanitize(params):
     params_copy = params.copy()
 
     for key in params.keys():
-        if not params[key] or key in ["self", "cls", "client", "args"]:
+        if (params[key] is None or params[key] == ''
+                or key in ["self", "cls", "client", "args"]):
             del params_copy[key]
 
     for key in params.keys():

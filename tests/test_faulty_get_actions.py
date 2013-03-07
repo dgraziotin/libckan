@@ -23,3 +23,13 @@ def test_faulty_package_revision_list():
 @nose.tools.raises(libckan.model.exceptions.CKANError)
 def test_faulty_package_revision_list():
     results = libckan.logic.action.get.package_revision_list(id='idonotexisth0')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_related_list():
+    libckan.logic.action.get.related_list(id='raviouliraviouliformu')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_related_show():
+    libckan.logic.action.get.related_list(id=213)
