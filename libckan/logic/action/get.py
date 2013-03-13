@@ -220,6 +220,9 @@ def related_list(client=client.Client(), id='', type_filter=None,
                  sort=None, featured=False):
     """Return a dataset's related items.
 
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
     :param id: id or name of the dataset
     :type id: string
     :param type_filter: the type of related item to show (optional,
@@ -243,6 +246,109 @@ def related_list(client=client.Client(), id='', type_filter=None,
     args = _sanitize(locals())
 
     resp = client.request(action='related_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+def member_list(client=client.Client(), id='', object_type=None,
+                param_capacity=None):
+    """Return the members of a group.
+
+    The user must have permission to 'get' the group.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param id: id of the group
+    :type id: str
+    :param object_type: restrict the members returned to those of a given type,
+      e.g. ``'user'`` or ``'package'`` (optional, default: ``None``)
+    :type object_type: str
+    :param capacity: restrict the members returned to those with a given
+      capacity, e.g. ``'member'``, ``'editor'``, ``'admin'``, ``'public'``,
+      ``'private'`` (optional, default: ``None``)
+    :type capacity: str
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list dicts.
+    :return: list of (id, type, capacity) tuples
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    #TODO won't work unless https://github.com/okfn/ckan/issues/623 is fixed
+    raise NotImplementedError("Currently not working in CKAN 2.0")
+
+#    args = _sanitize(locals())
+#
+#    resp = client.request(action='member_list', data=args)
+#    if not resp['success']:
+#        raise exceptions.CKANError(resp.error)
+#    return resp
+
+
+def group_list(client=client.Client(), sort=None, groups=None,
+               all_fields=False):
+    """Return a list of the names of the site's groups.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param sort: sorting of the search results.  Optional.  Default:
+        "name asc" string of field name and sort-order. The allowed fields are
+        'name' and 'packages'
+    :type sort: str
+    :param groups: a list of names of the groups to return, if given only
+        groups whose names are in this list will be returned (optional)
+    :type groups: list of str
+    :param all_fields: return full group dictionaries instead of  just names
+        (optional, default: ``False``)
+    :type all_fields: bool
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list dicts.
+    :return: list of (id, type, capacity) tuples
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='group_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
+def organization_list(client=client.Client(), sort=None, organizations=None,
+                      all_fields=False):
+    """Return a list of the names of the site's organizations.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param sort: sorting of the search results.  Optional.  Default:
+        "name asc" string of field name and sort-order. The allowed fields are
+        'name' and 'packages'
+    :type sort: str
+    :param organizations: a list of names of the groups to return, if given only
+        groups whose names are in this list will be returned (optional)
+    :type organizations: list of str
+    :param all_fields: return full group dictionaries instead of  just names
+        (optional, default: ``False``)
+    :type all_fields: bool
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list dicts.
+    :return: list of (id, type, capacity) tuples
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='organization_list', data=args)
     if not resp['success']:
         raise exceptions.CKANError(resp.error)
     return resp

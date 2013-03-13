@@ -105,3 +105,26 @@ def test_related_show():
     assert related['title'] == related_reget['title']
 
 
+def test_group_list():
+    groups = libckan.logic.action.get.group_list(all_fields=True)
+    if len(groups['result']) == 0:
+        return
+
+    group = groups['result'][0]
+    assert group['id'] is not None and group['id'] != u''
+    assert isinstance(group['id'], unicode)
+
+
+@nose.tools.raises(NotImplementedError)
+def test_member_list():
+    groups = libckan.logic.action.get.member_list(id='tobedone')
+
+
+def test_organization_list():
+    orgs = libckan.logic.action.get.organization_list(all_fields=True)
+    if len(orgs['result']) == 0:
+        return
+
+    org = orgs['result'][0]
+    assert org['id'] is not None and org['id'] != u''
+    assert isinstance(org['id'], unicode)

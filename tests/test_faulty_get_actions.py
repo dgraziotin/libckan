@@ -33,3 +33,19 @@ def test_faulty_related_list():
 @nose.tools.raises(exceptions.CKANError)
 def test_faulty_related_show():
     libckan.logic.action.get.related_list(id=213)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_group_list():
+    groups = libckan.logic.action.get.group_list(sort='blah')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_group_list2():
+    groups = libckan.logic.action.get.group_list(groups=[123,432],all_fields=15)
+    print groups
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_organization_list():
+    groups = libckan.logic.action.get.organization_list(sort='blah')
