@@ -354,6 +354,28 @@ def organization_list(client=client.Client(), sort=None, organizations=None,
     return resp
 
 
+def licence_list(client=client.Client()):
+    """Return a list of the Licenses of the for the available datasets.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of dicts.
+    :return: list of Licenses dicts
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='licence_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
 def _sanitize(params):
     """
     Polishes the parameters to be sent to CKAN.

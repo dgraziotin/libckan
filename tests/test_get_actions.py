@@ -128,3 +128,20 @@ def test_organization_list():
     org = orgs['result'][0]
     assert org['id'] is not None and org['id'] != u''
     assert isinstance(org['id'], unicode)
+
+
+def test_license_list():
+    licenses = libckan.logic.action.get.licence_list()
+    if len(licenses['result']) == 0:
+        return
+
+    found = False
+    for lic in licenses['result']:
+        assert lic['id'] is not None and lic['id'] != u''
+        assert isinstance(lic['id'], unicode)
+        if lic['title'].lower().find('open'):
+            found = True
+
+    if not found:
+        print "No licenses found with 'open' term in them. Maybe not an error."
+        assert True is False

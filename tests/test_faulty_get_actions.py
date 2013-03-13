@@ -49,3 +49,12 @@ def test_faulty_group_list2():
 @nose.tools.raises(exceptions.CKANError)
 def test_faulty_organization_list():
     groups = libckan.logic.action.get.organization_list(sort='blah')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_license_list():
+    fake_except = {'__type':'Fake Error', 'message': 'Fake Error'}
+    class Cl(object):
+        def request(self, action, data):
+            raise exceptions.CKANError(fake_except)
+    licences = libckan.logic.action.get.licence_list(client=Cl())
