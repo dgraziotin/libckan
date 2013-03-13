@@ -58,3 +58,9 @@ def test_faulty_license_list():
         def request(self, action, data):
             raise exceptions.CKANError(fake_except)
     licences = libckan.logic.action.get.licence_list(client=Cl())
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_faulty_tag_list():
+    tags_str = libckan.logic.action.get.tag_list()
+    tags_dicts = libckan.logic.action.get.tag_list(vocabulary_id='blah')

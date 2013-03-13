@@ -145,3 +145,15 @@ def test_license_list():
     if not found:
         print "No licenses found with 'open' term in them. Maybe not an error."
         assert True is False
+
+
+def test_tag_list():
+    tags_str = libckan.logic.action.get.tag_list()
+    tags_dicts = libckan.logic.action.get.tag_list(all_fields=True)
+    if len(tags_str['result']) == 0:
+        return
+
+    assert isinstance(tags_str['result'][0], unicode)
+    assert isinstance(tags_dicts['result'][0], dict)
+
+    assert tags_dicts['result'][0]['id'] != ''

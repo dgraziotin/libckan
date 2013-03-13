@@ -376,6 +376,39 @@ def licence_list(client=client.Client()):
     return resp
 
 
+def tag_list(client=client.Client(), query='', vocabulary_id='',
+             all_fields=False):
+    """Return a list of the site's tags.
+    If the vocabulary_id argument is given then only tags belonging
+    to that vocabulary will be returned.
+    Otherwise, only tags not belonging to a vocabulary will be returned.
+
+    :param client: the CKAN Client. Default: an instance of
+        libckan.model.client.Client
+    :type client: libckan.model.client.Client
+    :param query: a tag name query to search for (optional)
+    :type query: str
+    :param vocabulary_id: the id or name of a vocabulary (optional)
+    :type vocabulary_id: str
+    :param all_fields: if True, return full tag dictionaries (optional)
+    :type all_fields: bool
+
+    :returns: the dictionary returned by the CKAN API, with the keys "help",
+        "result", and "success". "results" is a list of dicts or of str if
+        all_fields is True
+    :return: list of str or list of dicts
+
+    Raises: :class:`libckan.model.exceptions.CKANError`:
+        An error occurred accessing CKAN API
+    """
+    args = _sanitize(locals())
+
+    resp = client.request(action='tag_list', data=args)
+    if not resp['success']:
+        raise exceptions.CKANError(resp.error)
+    return resp
+
+
 def _sanitize(params):
     """
     Polishes the parameters to be sent to CKAN.
