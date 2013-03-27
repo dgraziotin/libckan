@@ -2,6 +2,13 @@ import nose.tools
 import libckan.logic.action.get as get
 import libckan.model.exceptions as exceptions
 
+
+class Cl(object):
+    def request(self, action, data):
+        raise exceptions.CKANError('')
+    def sanitize_params(self, params):
+        raise exceptions.CKANError('')
+
 #@nose.tools.raises(exceptions.CKANError)
 #def test_faulty_package_search_non_existing():
 #    results = get.package_search(sort='213')
@@ -75,11 +82,6 @@ def test_package_autocomplete():
 
 @nose.tools.raises(exceptions.CKANError)
 def test_package_list():
-    class Cl(object):
-        def request(self, action, data):
-            raise exceptions.CKANError('')
-        def sanitize_params(self, params):
-            raise exceptions.CKANError('')
     results = get.package_list(client=Cl())
 
 
@@ -119,3 +121,27 @@ def test_current_package_list_with_resources():
 @nose.tools.raises(exceptions.CKANError)
 def test_group_package_show():
     results = get.group_package_show(id=666)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_group_list():
+    results = get.group_list(order_by=666,
+        sort='',
+        groups='', all_fields='')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_group_list_authz():
+    results = get.group_list_authz(client=Cl(), available_only=-15)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_group_show():
+    groups = get.group_list(order_by=666,
+        sort=666,
+        groups='', all_fields='')
+    group = groups['result'][0]
+    results = get.group_show(client=client.Client(), id=group)
+    assert results['success'] is True
+    assert results['result']['display_name'].lower() == group.lower()
+
