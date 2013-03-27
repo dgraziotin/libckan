@@ -25,4 +25,3 @@ model Package
     :undoc-members:
     :show-inheritance:
 
-

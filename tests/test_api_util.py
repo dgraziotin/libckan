@@ -1,5 +1,5 @@
 import nose
-import libckan.logic.action.get as get
+import libckan.model.client as client
 
 
 def test__sanitize():
@@ -8,10 +8,10 @@ def test__sanitize():
         'b': 2,
         'c': 3,
     }
-    results = get._sanitize(params)
+    results = client.Client.sanitize_params(params)
     assert results == params
 
 
 @nose.tools.raises(TypeError)
 def test__sanitize_nonvalid():
-    results = get._sanitize('')
+    results = client.Client.sanitize_params('')

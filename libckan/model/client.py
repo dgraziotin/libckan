@@ -32,6 +32,41 @@ class Client(object):
         self._base_url = base_url
         self._key = api_key
 
+
+    @classmethod
+    def sanitize_params(cls, params):
+        """
+        Polishes the parameters to be sent to CKAN.
+
+        :param params: A dict of parameters. Usually obtained with a call
+        to :func:`locals`
+        :type client: dict
+
+        :returns: The sanitizied dict of parameters
+        :rtype: dict
+        """
+
+        if not isinstance(params, dict):
+            raise TypeError('_sanitize(params) needs a dict as parameter')
+
+        params_copy = params.copy()
+
+        for key in params.keys():
+            if (params[key] is None or params[key] == ''
+                or key in ["self", "cls", "client", "args"]):
+                del params_copy[key]
+
+        for key in params.keys():
+            if key.startswith('facet_'):
+                new_key = key.replace('_', '.')
+                params_copy[new_key] = params[key]
+                del params[key]
+            if key == 'facet':
+                params_copy[key] = str(params[key]).lower()
+
+        return params_copy
+
+
     @classmethod
     def request(cls, action, data=None, base_url=_base_url, api_key=_key):
         """Post a data dict to one of the actions of the CKAN action API.

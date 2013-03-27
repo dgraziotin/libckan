@@ -9,11 +9,10 @@ action Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`get` Module
------------------
+Subpackages
+-----------
 
-.. automodule:: libckan.logic.action.get
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. toctree::
+
+    libckan.logic.action.get
 

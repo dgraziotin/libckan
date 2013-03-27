@@ -11,6 +11,6 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   libckan.logic.action
+   libckan.logic.action.get
    libckan.model
 
