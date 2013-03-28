@@ -1,4 +1,4 @@
-#from status import *
+from status import *
 #from misc import *
 #from related import *
 from tag import *
@@ -6,7 +6,7 @@ from tag import *
 #from follow import *
 from group import *
 #from term import *
-#from resource import *
+from resource import *
 #from roles import *
 from package import *
 #from activity import *

@@ -190,3 +190,23 @@ def test_organization_list_for_user():
 def test_organization_show():
     results = get.organization_show(id='hahaha')
 
+
+@nose.tools.raises(exceptions.CKANError)
+def test_status_show():
+    results = get.status_show(client=Cl())
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_resource_status_show():
+    results = get.resource_status_show(id=-666)
+    if results['result']['message']:
+        raise exceptions.CKANError('Fake Error')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_task_status_show():
+    results = get.task_status_show(entity_id=98)
+    assert results['success'] is True
+
+
+
