@@ -173,3 +173,20 @@ def test_tag_search():
 def test_tag_show():
     results = get.tag_show(id='lkj')
 
+
+@nose.tools.raises(exceptions.CKANError)
+def test_organization_list():
+    results = get.organization_list(order_by=20,
+        sort=765, organizations={'asd':4},
+        all_fields=0)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_organization_list_for_user():
+    results = get.organization_list_for_user(client=Cl(), permission=123)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_organization_show():
+    results = get.organization_show(id='hahaha')
+
