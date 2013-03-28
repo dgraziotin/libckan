@@ -141,7 +141,35 @@ def test_group_show():
         sort=666,
         groups='', all_fields='')
     group = groups['result'][0]
-    results = get.group_show(client=client.Client(), id=group)
+    results = get.group_show(id=group)
     assert results['success'] is True
     assert results['result']['display_name'].lower() == group.lower()
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_tag_list():
+    results = get.tag_list(query=123, vocabulary_id=987, all_fields=True)
+    tags = results['result']
+    assert results['success'] is True
+    assert len(tags) > 0
+    assert isinstance(tags[0], dict)
+    assert tags[0]['display_name'] != ''
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_tag_autocomplete():
+    results = get.tag_list(query='raviuoliraviuoligivemethepotiuoli',
+        vocabulary_id=-123, all_fields=False)
+    tags = results['result']
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_tag_search():
+    results = get.tag_list(query='raviuoliraviuoligivemethepotiuoli',
+        vocabulary_id=-123, all_fields=False)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_tag_show():
+    results = get.tag_show(id='lkj')
 
