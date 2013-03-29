@@ -26,7 +26,7 @@ class Client(object):
     """
     #TODO someday this will come from a config
     _key = API_KEY
-    _base_url = 'http://beta.ckan.org'
+    _base_url = 'http://master.ckan.org'
 
     def __init__(self, base_url=_base_url, api_key=_key):
         self._base_url = base_url

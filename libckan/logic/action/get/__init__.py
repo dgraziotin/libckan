@@ -5,7 +5,7 @@ from tag import *
 #from user import *
 #from follow import *
 from group import *
-#from term import *
+from term import *
 from resource import *
 #from roles import *
 from package import *

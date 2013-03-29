@@ -209,4 +209,24 @@ def test_task_status_show():
     assert results['success'] is True
 
 
+@nose.tools.raises(exceptions.CKANError)
+def test_vocabulary_list():
+    results = get.vocabulary_list(client=Cl())
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_term_translation_show():
+    results = get.term_translation_show(terms=123)
+    assert results['success'] is True
+    assert isinstance(results['result'], list)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_vocabulary_show():
+    results = get.vocabulary_show(id=123)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_format_autocomplete():
+    results = get.format_autocomplete(q=123, limit='a')
 
