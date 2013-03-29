@@ -259,3 +259,23 @@ def test_package_revision_list():
 @nose.tools.raises(exceptions.CKANError)
 def test_group_revision_list():
     results = get.group_revision_list(id=213)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_user_list():
+    results = get.user_list(q=123, order_by=321)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_user_autocomplete():
+    results = get.user_autocomplete(q={1:2})
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_user_show():
+    results = get.user_list(q=123, order_by=321)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_member_list():
+    results = get.member_list(id=9876)
