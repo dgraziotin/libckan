@@ -287,3 +287,13 @@ def test_member_roles_list():
 @nose.tools.raises(exceptions.CKANError)
 def test_roles_show():
     results = get.roles_show(domain_object=123)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_related_list():
+    results = get.related_list(id=909)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_related_show():
+    results = get.related_show(id=9899)

@@ -1,6 +1,6 @@
 from status import *
 #from misc import *
-#from related import *
+from related import *
 from tag import *
 from user import *
 #from follow import *
