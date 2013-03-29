@@ -11,4 +11,4 @@ from resource import *
 from package import *
 #from activity import *
 from organization import *
-#from revision import *
+from revision import *

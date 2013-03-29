@@ -239,3 +239,23 @@ def test_resource_search():
 @nose.tools.raises(exceptions.CKANError)
 def test_resource_show():
     res_show = get.resource_show(id='blah')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_revision_list():
+    results = get.revision_list(client=Cl())
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_revision_show():
+    results = get.revision_show(id=213)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_package_revision_list():
+    revs = get.package_revision_list(id=123)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_group_revision_list():
+    results = get.group_revision_list(id=213)
