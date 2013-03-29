@@ -279,3 +279,11 @@ def test_user_show():
 @nose.tools.raises(exceptions.CKANError)
 def test_member_list():
     results = get.member_list(id=9876)
+
+@nose.tools.raises(exceptions.CKANError)
+def test_member_roles_list():
+    results = get.member_roles_list(client=Cl())
+
+@nose.tools.raises(exceptions.CKANError)
+def test_roles_show():
+    results = get.roles_show(domain_object=123)

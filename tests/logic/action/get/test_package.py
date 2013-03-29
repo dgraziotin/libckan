@@ -41,10 +41,13 @@ def test_package_search():
 
 
 def test_package_show():
-    results = get.package_show(client=client.Client(), id='test')
+    results = get.package_search(client=client.Client(), q='test')
+    assert results['success'] is True
+    id = results['result']['results'][0]['id']
+    results = get.package_show(client=client.Client(), id=id)
     assert results['success'] is True
     assert isinstance(results['result'], dict)
-    assert results['result']['name'] == 'test'
+    assert results['result']['id'] == id
 
 
 def test_current_package_list_with_resources():
