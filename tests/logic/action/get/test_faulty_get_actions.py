@@ -230,3 +230,12 @@ def test_vocabulary_show():
 def test_format_autocomplete():
     results = get.format_autocomplete(q=123, limit='a')
 
+
+@nose.tools.raises(exceptions.CKANError)
+def test_resource_search():
+    results = get.resource_search(query='blah:csv')
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_resource_show():
+    res_show = get.resource_show(id='blah')

@@ -12,7 +12,7 @@ def test_status_show():
 
 def test_resource_status_show():
     results = get.resource_search(client=client.Client(),
-        query='name:bus-stops')
+        query='name:csv')
     assert results['success'] is True
     if results['result']['count'] > 0:
         id = results['result']['results'][0]['id']
