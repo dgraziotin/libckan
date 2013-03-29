@@ -297,3 +297,13 @@ def test_related_list():
 @nose.tools.raises(exceptions.CKANError)
 def test_related_show():
     results = get.related_show(id=9899)
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_licence_list():
+    results = get.licence_list(client=Cl())
+
+
+@nose.tools.raises(exceptions.CKANError)
+def test_site_read():
+    results = get.site_read(client=Cl())
